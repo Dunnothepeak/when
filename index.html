@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Kailan ka ginawa???</title>
+    <style>
+        body {
+            font-family: "Comic Sans MS", cursive, sans-serif;
+            background-color: #f0f8ff;
+            text-align: center;
+            padding: 20px;
+            color: #4b0082;
+        }
+
+        h3 {
+            color: #6a5acd;
+            font-size: 2rem;
+            text-shadow: 1px 1px 2px #836fff;
+        }
+
+        label {
+            font-size: 1.2rem;
+            color: #483d8b;
+        }
+
+        input[type="date"] {
+            padding: 10px;
+            font-size: 1rem;
+            border: 2px solid #b0c4de;
+            border-radius: 10px;
+            background-color: #ffffff;
+            box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+            color: #4b0082;
+        }
+
+        button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #ffffff;
+            background-color: #6a5acd;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            box-shadow: 3px 3px 8px rgba(0, 0, 0, 0.2);
+            transition: transform 0.2s, background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #483d8b;
+            transform: scale(1.1);
+        }
+
+        p {
+            margin-top: 20px;
+            font-size: 1.2rem;
+            background-color: #e6e6fa;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+            color: #4b0082;
+            display: inline-block;
+        }
+    </style>
+</head>
+<body>
+    <h3>🌸 When ur parents fucked? 🌸</h3>
+    <label for="dateInput">When is ur birthday:</label>
+    <input type="date" id="dateInput">
+    <br>
+    <button onclick="calculateWeek()">💜 Calculate 💜</button>
+    <p id="result">Your result will appear here!</p>
+
+    <script>
+        function calculateWeek() {
+            const inputDate = document.getElementById("dateInput").value;
+            if (!inputDate) {
+                document.getElementById("result").innerText = "Please select a date.";
+                return;
+            }
+
+            const date = new Date(inputDate);
+            date.setMonth(date.getMonth() - 9);
+
+            const weekNumber = getWeekNumber(date);
+            const weekRange = getWeekRange(date);
+            document.getElementById("result").innerText =
+                ` Ginawa ka possibly noong ${weekRange}, Week ${weekNumber} of ${date.getFullYear()}.`;
+        }
+
+        function getWeekNumber(date) {
+            const firstDayOfYear = new Date(date.getFullYear(), 0, 1);
+            const pastDaysOfYear = (date - firstDayOfYear + 86400000) / 86400000;
+            return Math.ceil((pastDaysOfYear + firstDayOfYear.getDay() + 1) / 7);
+        }
+
+        function getWeekRange(date) {
+            const startOfWeek = new Date(date);
+            startOfWeek.setDate(date.getDate() - date.getDay()); // Start of the week (Sunday)
+
+            const endOfWeek = new Date(startOfWeek);
+            endOfWeek.setDate(startOfWeek.getDate() + 6); // End of the week (Saturday)
+
+            return `${formatDate(startOfWeek)} - ${formatDate(endOfWeek)}`;
+        }
+
+        function formatDate(date) {
+            const options = { month: 'short', day: 'numeric' };
+            return date.toLocaleDateString('en-US', options);
+        }
+    </script>
+</body>
+</html>
